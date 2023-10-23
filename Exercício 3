@@ -1,1 +1,118 @@
+**GRUPO 2**
 
+**Nome - DRE**
+
+Gabriel Gasparello - 121180109
+
+Gabriel Gazaneo - 121131176
+
+Gustavo Lundgren - 121160133
+
+Matheus Felippe Marques - 121128995
+
+Tiago Seda Raposo de Almeida - 122055331
+
+#######################################################################################
+
+
+
+**QUESTÃO 3 - ITEM A**
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
+
+k,p,n=0,0,0
+iP,iN=0,0
+
+lista_p, lista_n = [], []
+
+while k<100:
+    iP,iN = 0,0
+    while iP < 4:
+        termo_p= 1/(1+p)
+        p+=2
+        iP += 1
+        lista_p.append(termo_p)
+
+    while iN < 2:
+        termo_n = 1/(2+n)
+        n+=2
+        iN += 1
+        lista_n.append(termo_n)
+    k+=1
+
+soma_p = sum(lista_p)
+soma_n = sum(lista_n)
+soma_100 = soma_p-soma_n
+
+print("S_100 é igual a:",soma_100)
+
+#Calculo do erro
+Soma_T = 3/2*(np.log(2))
+
+print("O erro é de :",Soma_T-soma_100)
+**QUESTAO 3 - ITEM B**
+Soma_T = 3/2*(np.log(2))
+
+def main():
+    k,p,n=0,0,0
+    iP,iN=0,0
+    erro = 1
+    lista_p,lista_n,lista_k,lista_erro =[],[],[],[]
+
+    while erro > 0.0001:
+        iP,iN = 0,0
+        while iP < 4:
+            termo_p= 1/(1+p)
+            p+=2
+            iP += 1
+            lista_p.append(termo_p)
+
+        while iN < 2:
+            termo_n = 1/(2+n)
+            n+=2
+            iN += 1
+            lista_n.append(termo_n)
+
+
+        soma_p = sum(lista_p)
+        soma_n = sum(lista_n)
+        soma_k = soma_p-soma_n
+        erro = Soma_T - soma_k
+        lista_k.append(soma_k)
+        lista_erro.append(erro)
+        k+=1
+
+    escalas =[5,10,100,1000]
+
+    #Plotando graficos S_k x K
+    for i in escalas:
+
+        eixo_x = np.linspace(0,i,i)
+
+        plt.figure(i)
+        plt.plot(eixo_x,lista_k[:i])
+        plt.title("Escala %d" %i)
+        plt.xlabel("K ")
+        plt.ylabel("Soma_K")
+        plt.grid()
+
+    #Plotando graficos e_k x K
+    for i in escalas:
+
+        eixo_x = np.linspace(0,i,i)
+
+        plt.figure(i+1)
+        plt.plot(eixo_x,lista_erro[:i])
+
+        plt.title("Escala %d" %i)
+        plt.xlabel("K ")
+        plt.ylabel("Erro_k")
+        plt.grid()
+
+
+    print(f"O menor valor de k para que consigamos o erro esperado é: {k}")
+    return
+
+if __name__ == "__main__":
+  main()
