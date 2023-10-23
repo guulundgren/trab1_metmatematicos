@@ -1,1 +1,305 @@
+**GRUPO 2**
 
+**Nome - DRE**
+
+Gabriel Gasparello - 121180109
+
+Gabriel Gazaneo - 121131176
+
+Gustavo Lundgren - 121160133
+
+Matheus Felippe Marques - 121128995
+
+Tiago Seda Raposo de Almeida - 122055331
+
+#######################################################################################
+**EXERCÍCIO 1 - ITEM A**
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+
+def is_absolutely_convergent(series):
+
+  # Testa se a razão entre dois termos consecutivos da série é sempre menor que 1.
+  for n in range(1, 100):
+    if abs(series(n)) >= 1:
+      return False
+
+  # A série é absolutamente convergente.
+  return True
+
+
+def is_conditionally_convergent(series):
+
+  # Testa se a razão entre dois termos consecutivos da série converge para 0.
+  for n in range(1, 100):
+    if abs(series(n+1) / series(n)) > 1:
+      return False
+
+  # A série é condicionalmente convergente.
+  return True
+
+
+def is_divergent(series):
+
+  # Testa se a série é absolutamente convergente ou condicionalmente convergente.
+  return not is_absolutely_convergent(series) and not is_conditionally_convergent(series)
+
+  # Retorna a soma parcial.
+  return sum(partial_sums)
+
+def plot_partial_sums(series, n_max):
+
+  # Obtém as somas parciais.
+  partial_sums_list = []
+  for n in range(n_max + 1):
+    partial_sums_list.append(series(n))
+
+  # Plota o gráfico.
+  plt.plot(range(n_max + 1), partial_sums_list)
+  plt.xlabel("Número de termos")
+  plt.ylabel("Soma parcial")
+  plt.grid()
+  plt.show()
+
+  #Testa se a primeira posição é um inteiro ou não
+  try:
+    print(f'\nSoma parcial: {sum(partial_sums_list)}')
+  except:
+    print(f'\nSoma parcial: {sum(partial_sums_list[1:])}')
+
+
+def main():
+  # -------INSIRA AQUI A ENTRADA DA SÉRIE MATEMÁTICA!-------
+  def series(n):
+    try:
+      serie_input = (5*n+2)/n**3 #Entrada
+      return serie_input
+    except:
+      if n == 0:
+        return None
+      else:
+        return serie_input
+
+  # Testa se a série é absolutamente convergente.
+  if is_absolutely_convergent(series) == True:
+    print("A série é absolutamente convergente.")
+
+  # Testa se a série é condicionalmente convergente.
+  if is_conditionally_convergent(series) == True:
+    print("A série é condicionalmente convergente.")
+
+  # Testa se a série é divergente.
+  if is_divergent(series):
+    print("A série é divergente.\nSoma parcial infinita.")
+
+  print('\n')
+
+  # Define o n_max.
+  n_max = 100
+
+  # Plota o gráfico das somas parciais.
+  plot_partial_sums(series, n_max)
+
+
+
+if __name__ == "__main__":
+  main()
+
+**EXERCÍCIO 2 - ITEM B**
+#Para esta questão, iremos adpatar o código da letra A.
+
+def plot_partial_sums(series, n_max):
+
+  # Obtém as somas parciais.
+  partial_sums_list = []
+  for n in range(n_max + 1):
+    partial_sums_list.append(series(n))
+
+  # Plota o gráfico.
+  plt.plot(range(n_max + 1), partial_sums_list)
+  plt.xlabel("Número de termos")
+  plt.ylabel("Soma parcial")
+  plt.grid()
+  plt.show()
+
+  #Testa se a primeira posição é um inteiro ou não
+  try:
+    return sum(partial_sums_list)
+  except:
+    print(f'\nSoma parcial: {sum(partial_sums_list[1:])}')
+    return sum(partial_sums_list[1:])
+
+
+def estimate_error(series, n_max):
+
+  # Calcula o termo n da série que não foi somado.
+  n = n_max + 1
+  term_n = series(n)
+
+  # Estima o valor absoluto da soma da série.
+  partial_sum = plot_partial_sums(series, n_max)
+  abs_sum = abs(partial_sum)
+
+  # Estima o erro da soma parcial.
+  error = abs(term_n) * abs_sum
+  print(f'\nErro estimado: {error}')
+  return 0
+
+
+def main():
+  # -------INSIRA AQUI A ENTRADA DA SÉRIE MATEMÁTICA!-------
+  def series(n):
+    try:
+      serie_input = (5*n+2)/n**3 #Entrada
+      return serie_input
+    except:
+      if n == 0:
+        return None
+      else:
+        return serie_input
+
+  print('\n')
+
+  # Define o n_max para 10, como pede na questão.
+  n_max = 10
+
+
+  # Calcula o erro da soma parcial.
+  error = estimate_error(series, n_max)
+
+
+if __name__ == "__main__":
+  main()
+**EXERCÍCIO 1 - ITEM C**
+#Para essa questão, adaptamos o código da letra B.
+
+def plot_partial_sums(series, n_max):
+
+  # Obtém as somas parciais.
+  partial_sums_list = []
+  for n in range(n_max + 1):
+    partial_sums_list.append(series(n))
+
+  #Retirei a parte de plotar o gráfico
+  #Caso seja necessário, apenas copiar e
+  #Colar das questões anteriores.
+
+  #Testa se a primeira posição é um inteiro ou não
+  try:
+    return sum(partial_sums_list)
+  except:
+    return sum(partial_sums_list[1:])
+
+
+def estimate_error(series, n_max):
+
+  # Calcula o termo n da série que não foi somado.
+  n = n_max + 1
+  term_n = series(n)
+
+  # Estima o valor absoluto da soma da série.
+  partial_sum = plot_partial_sums(series, n_max)
+  abs_sum = abs(partial_sum)
+
+  # Estima o erro da soma parcial.
+  error = abs(term_n) * abs_sum
+  return error
+
+def main():
+  # -------INSIRA AQUI A ENTRADA DA SÉRIE MATEMÁTICA!-------
+  def series(n):
+    try:
+      serie_input = (5*n+2)/n**3 #Entrada
+      return serie_input
+    except:
+      if n == 0:
+        return None
+      else:
+        return serie_input
+
+  print('\n')
+
+  # Define o n_max.
+  n_max = 1
+
+  #Define o erro mínimo.
+  min_error = 0.001
+
+  # Calcula o erro da soma parcial.
+  error = estimate_error(series, n_max)
+
+  while error > min_error:
+    n_max += 1
+    error = estimate_error(series, n_max)
+  print(f'Número máximo de termos: {n_max}\n\nErro estimado: {error}')
+
+if __name__ == "__main__":
+  main()
+**EXERCÍCIO 1 - ITEM D**
+def plot_partial_sums(series, n_max):
+
+  # Obtém as somas parciais.
+  partial_sums_list = []
+  for n in range(n_max + 1):
+    partial_sums_list.append(series(n))
+
+  #Retirei a parte de plotar o gráfico
+  #Caso seja necessário, apenas copiar e
+  #Colar das questões anteriores.
+
+  #Testa se a primeira posição é um inteiro ou não
+  try:
+    return sum(partial_sums_list)
+  except:
+    return sum(partial_sums_list[1:])
+
+def estimate_error(series, n_max):
+
+  # Calcula o termo n da série que não foi somado.
+  n = n_max + 1
+
+  # Estima o valor absoluto da soma da série.
+  partial_sum = plot_partial_sums(series, n_max)
+  abs_sum = abs(partial_sum)
+
+  #Define a variável para a função DoIt.
+  n = Symbol('n')
+
+  #Calcula as somas parciais inferiores e superiores.
+  Sup = abs_sum + Integral(((5*n+2)/n**3),(n,10,oo)).doit()
+  Inf = abs_sum + Integral(((5*n+2)/n**3),(n,11,oo)).doit()
+
+  #Calcula a Soma mais Aproximada o possível.
+  Sum = (Sup+Inf)/2
+
+  print(f'A soma mais aproximada é: {Sum}')
+
+  #Define o erro como a diferença dessas somas parciais /2.
+  error = (Sup - Inf)/2
+
+  return error
+
+def main():
+  # -------INSIRA AQUI A ENTRADA DA SÉRIE MATEMÁTICA!-------
+  def series(n):
+    try:
+      serie_input = (5*n+2)/n**3 #Entrada
+      return serie_input
+    except:
+      if n == 0:
+        return None
+      else:
+        return serie_input
+
+  # Define o n_max.
+  n_max = 10
+
+  # Calcula o erro da soma parcial.
+  error = estimate_error(series, n_max)
+
+  print(f'\nErro: {error}')
+
+
+if __name__ == "__main__":
+  main()
