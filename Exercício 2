@@ -1,22 +1,45 @@
-# ITEM A
+**GRUPO 2**
 
+**Nome - DRE**
+
+Gabriel Gasparello - 121180109
+
+Gabriel Gazaneo - 121131176
+
+Gustavo Lundgren - 121160133
+
+Matheus Felippe Marques - 121128995
+
+Tiago Seda Raposo de Almeida - 122055331
+
+#######################################################################################
+
+
+
+**EXERCÍCIO 2 - ITEM A**
+
+**Como os polinômios convergem para f(x)?**
+
+R:
+
+Os polinômios de Taylor convergem para uma função
+f(x) em torno de um ponto "a" quando o grau "n" do polinômio aumenta. A convergência significa que, à medida que "n" se torna maior, o polinômio de Taylor se aproxima cada vez mais da função
+f(x) na vizinhança de "a".
+
+Tal fato pode ser constatado ao observarmos nos gráficos a seguir os polinômios de Taylor de grau 1 ao grau 4 e a sua convergência em relação a função original f(x).
 import sympy as sp
 import matplotlib.pyplot as plt
 import numpy as np
-
 # Definição da variável "x"
 x = sp.symbols('x')
-
 # Definição da função f(x)
 f_x = sp.sqrt(x)
 a = 9 # Ponto de expansão
-
 # Cálculo das derivadas de f(x)
 derivada1f = sp.diff(f_x,x)
 derivada2f = sp.diff(derivada1f,x)
 derivada3f = sp.diff(derivada2f,x)
 derivada4f = sp.diff(derivada3f,x)
-
 # Cálculo do polinômio de Taylor de grau 1
 
 polinomio1_taylor = (f_x.subs(x,a) +
@@ -26,21 +49,20 @@ polinomio1_taylor = (f_x.subs(x,a) +
 print("P(x) =", polinomio1_taylor)
 
 # Plotagem do gráfico do Polinômio de Taylor de grau 2 vs. Função Original
-taylor_func = sp.lambdify(x, polinomio2_taylor, "numpy")
+taylor_func = sp.lambdify(x, polinomio1_taylor, "numpy")
 x_values = np.linspace(0, 18, 400)
 y_values = taylor_func(x_values)
 f_func = sp.lambdify(x, f_x, "numpy")
 original_values = f_func(x_values)
 plt.figure(figsize=(10, 6))
-plt.plot(x_values, y_values, label="Polinômio de Taylor (Grau 2)", color='blue')
+plt.plot(x_values, y_values, label="Polinômio de Taylor (Grau 1)", color='blue')
 plt.plot(x_values, original_values, label="Função Original f(x)", linestyle='--', color='red')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.legend()
 plt.grid()
-plt.title("Polinômio de Taylor de grau 2 vs. Função Original")
+plt.title("Polinômio de Taylor de grau 1 vs. Função Original")
 plt.show()
-
 # Cálculo do polinômio de Taylor de grau 2
 
 polinomio2_taylor = (f_x.subs(x,a) +
@@ -65,7 +87,6 @@ plt.legend()
 plt.grid()
 plt.title("Polinômio de Taylor de grau 2 vs. Função Original")
 plt.show()
-
 # Cálculo do polinômio de Taylor de grau 3
 
 polinomio3_taylor = (f_x.subs(x,a) +
@@ -91,7 +112,6 @@ plt.legend()
 plt.grid()
 plt.title("Polinômio de Taylor de grau 3 vs. Função Original")
 plt.show()
-
 # Cálculo do polinômio de Taylor de grau 4
 
 polinomio4_taylor = (f_x.subs(x,a) +
@@ -117,4 +137,32 @@ plt.ylabel('y')
 plt.legend()
 plt.grid()
 plt.title("Polinômio de Taylor de grau 4 vs. Função Original")
+plt.show()
+**EXERCÍCIO 2 - ITEM B**
+# Erro exato
+erro_exato = f_x - polinomio4_taylor
+
+# Erro estimado usando a Desigualdade de Taylor
+Rn = (derivada4f.subs(x, a) / sp.factorial(4)) * (x - a)**4
+
+# Converta as expressões em funções lambdas para avaliação numérica
+func_erro_exato = sp.lambdify(x, erro_exato, "numpy")
+func_rn = sp.lambdify(x, Rn, "numpy")
+
+# Valores de x no intervalo 9 ≤ x ≤ 10
+x_values2 = np.linspace(9, 10, 400)
+
+# Avalie o erro exato e o erro estimado no intervalo 9 ≤ x ≤ 10
+valores_erro_exato = func_erro_exato(x_values2)
+valores_rn = func_rn(x_values2)
+
+# Plotagem do gráfico do Erro exato vs. Erro estimado
+plt.figure(figsize=(10, 6))
+plt.plot(x_values2, valores_erro_exato, label="Erro Exato", color='blue')
+plt.plot(x_values2, valores_rn, label="Erro Estimado (Rn)", linestyle='--', color='red')
+plt.xlabel('x')
+plt.ylabel('Erro')
+plt.title("Erro Exato vs. Erro Estimado")
+plt.legend()
+plt.grid()
 plt.show()
