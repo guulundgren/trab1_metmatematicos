@@ -1,1 +1,161 @@
+**GRUPO 2**
 
+**Nome - DRE**
+
+Gabriel Gasparello - 121180109
+
+Gabriel Gazaneo - 121131176
+
+Gustavo Lundgren - 121160133
+
+Matheus Felippe Marques - 121128995
+
+Tiago Seda Raposo de Almeida - 122055331
+
+#######################################################################################
+
+
+
+**EXERCÍCIO 4 - ITEM A**
+import matplotlib.pyplot as plt
+import numpy as np
+import sympy as sp
+from mpl_toolkits.mplot3d import Axes3D
+import warnings
+warnings.simplefilter("ignore", np.ComplexWarning)
+lista_t = np.linspace(0,20,2000)
+
+def questao_4():
+
+
+    matriz = [[0,1],[-1,0]]
+    auto_valor,auto_vetor = np.linalg.eig(matriz)
+
+    x_1e,x_2e = [],[]
+
+    c2= 1/((-auto_vetor[0][1]*auto_vetor[1][0])+auto_vetor[1][1])
+    c1 = (-c2*auto_vetor[0][1])/auto_vetor[0][0]
+    for t in lista_t:
+        x_1e.append(c1* auto_vetor[0][0]*np.exp(auto_valor[0]*t)+c2*auto_vetor[1][0]*np.exp(auto_valor[1]*t))
+        x_2e.append(c1* auto_vetor[0][1]*np.exp(auto_valor[0]*t)+c2*auto_vetor[1][1]*np.exp(auto_valor[1]*t))
+    return x_1e,x_2e
+**EXERCÍCIO 4 - ITEM B**
+
+# Definir o sistema de EDOs
+def getf(z):
+    x1 = z[0]
+    x2 = z[1]
+    dx1dt = x2
+    dx2dt = -x1
+    f = np.array([dx1dt, dx2dt])
+    return f
+
+# Definir condições iniciais
+z0 = np.array([0,1])
+
+# Definir a condição de integração
+t0 = 0               # Escolher o instante inicial
+h = 0.01             # Escolher um passo de integração
+n = int(20/h)        # Definir o número de passos
+
+
+def metodo_euler_explicito(t0, y0, n, h):
+    # t0 = valor inicial para t
+    # y0 = valor inicial para y
+    # n = número de passos
+    # h = tamanho do passo
+    # Requer a função getf(y)
+
+    # Inicializa o contador e os vetores de saída para t e y
+    k = 0
+    t = np.zeros(n)
+    y = np.zeros((n,len(y0)))
+
+    # Inicializa x e y com os valores iniciais
+    t[0] = t0
+    y[0,:] = y0
+
+    # Loop principal para realizar os cálculos
+    for i in range(0, n-1):
+
+        y[i+1,:] = y[i,:] + h * getf(y[i,:]) # Atualiza o valor de y usando o método de Euler explícito
+        t[i+1] = t[i] + h                    # Incrementa o valor de t
+
+    # Retorna os vetores de saída com os valores de t e y calculados
+    return t, y
+
+
+t,z = metodo_euler_explicito(t0, z0, n, h)
+
+x_1a,x_2a = z[:,0],z[:,1]
+x_1e,x_2e = questao_4()
+
+
+erro_x1, erro_x2 =[],[]
+
+for t in lista_t:
+    erro_x1.append(x_1e[int(t)] - x_1a[int(t)])
+    erro_x2.append(x_2e[int(t)] - x_2a[int(t)])
+**A SEGUIR ESTÃO OS GRÁFICOS REFERENTE A CADA UMA DAS FIGURAS PROPOSTAS NO ENUNCIADO DO EXERCÍCIO 4**
+# Gráfico referente à figura 1
+
+plt.figure(figsize=(10,6))
+plt.plot(lista_t,x_1e,label="x1_e(t)")
+plt.plot(lista_t,x_1a, label = 'x1_a(t)')
+plt.title("Figura 1")
+plt.xlabel("Tempo")
+plt.ylabel("X1_e & X1_a")
+plt.legend()
+plt.grid()
+plt.show()
+# Gráfico referente à figura 2
+
+plt.figure(figsize=(10,6))
+plt.title("Figura 2")
+plt.plot(lista_t, erro_x1,label = 'Erro x1' )
+plt.xlabel("Tempo")
+plt.ylabel("Erro")
+plt.legend()
+plt.grid()
+# Gráfico referente à figura 3
+
+plt.figure(figsize=(10,6))
+plt.plot(lista_t,x_1e,label="x2_e(t)")
+plt.plot(lista_t,x_1a, label = 'x2_a(t)')
+plt.title("Figura 3")
+plt.xlabel("Tempo")
+plt.ylabel("X2_e & X2_a")
+plt.legend()
+plt.grid()
+plt.show()
+# Gráfico referente à figura 4
+
+
+plt.figure(figsize=(10,6))
+plt.title("Figura 4")
+plt.plot(lista_t,erro_x2,label = 'Erro x2')
+plt.xlabel("Tempo")
+plt.ylabel("Erro")
+plt.legend()
+plt.grid()
+# Gráfico referente à figura 5
+
+plt.figure(figsize=(10,6))
+plt.title("Figura 5")
+plt.plot(x_2a, x_1a)
+plt.xlabel("X2_a")
+plt.ylabel("X1_a")
+plt.grid()
+# Gráfico referente à figura 6
+
+fig = plt.figure(figsize=(10,6))
+
+ax = fig.add_subplot(111, projection='3d')
+
+plt.title("Figura 6")
+ax.plot(x_1a, x_2a, lista_t, label='Linha 3D')
+ax.set_xlabel('X_1A')
+ax.set_ylabel('X_2A')
+ax.set_zlabel('Tempo')
+ax.legend()
+plt.show()
